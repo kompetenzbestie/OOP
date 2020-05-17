@@ -1,3 +1,5 @@
+import random
+
 def auf_ab (a, b, c):
     if a<=b<=c:
         print("Die Zahlen sind aufsteigend.")
@@ -37,3 +39,39 @@ def weekday (d,m,y):
         print("Donnerstag")
     elif(name==6):
         print("Freitag")
+
+def gluecksspieler():
+
+    bargeld = int(input("Bargeld = "))
+
+    eingang = bargeld
+
+    rounds = 0
+
+    while bargeld > 0:
+
+        rounds += 1
+        
+        print(bargeld, end=": \t")
+
+        counter = bargeld
+        while counter > 0:
+            print("$", end="")
+            counter -= 1
+
+        if bargeld == (eingang*2):
+            print("\nYou are a great winner!")
+            return rounds
+
+        if random.randint(0,1):
+            bargeld -= 1
+        else:
+            bargeld += 1
+
+        print()
+
+    print("You are a great loser!")
+
+    return rounds
+
+
