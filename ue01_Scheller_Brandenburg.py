@@ -129,3 +129,35 @@ def beaufortskala(k):
         return "Orkan"
     else:
         return "Falscher Input. Bitte eine Zahl eingeben."
+
+
+# TESTFUNKTIONEN
+
+def test_auf_ab():
+    auf_ab(1421,6758,9999)              # Die Zahlen sind aufsteigend.
+    auf_ab(3,2,1)                       # Die Zahlen sind absteigend.
+    auf_ab(42,123,66)                   # Die Zahlen sind weder auf- noch absteigend.
+
+def test_listenprodukt():
+    listenprodukt([1,2,3,4,5,6,7,8,9])  # 362880
+    listenprodukt([2])                  # 2
+    listenprodukt([2,21])               # 42
+    
+def test_weekday():
+    for i in range (18,25):
+        weekday(i,5,2020)               # Montag\nDienstag\nMittwoch\nDonnerstag\nFreitag\nSamstag\nSonntag
+
+
+def test_teiler():
+    print(teiler(42))                   # [1, 2, 3, 6, 7, 14, 21]
+    print(teiler(220))                  # [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110]
+    print(teiler(666))                  # [1, 2, 3, 6, 9, 18, 37, 74, 111, 222, 333]
+
+def test_befreundet():
+    print(befreundet(7850512,8052489))  # False
+    print(befreundet(7850512,8052488))  # True
+
+def test_beaufortskala():
+    for i in range (10):
+        a = random.randint(0,70)
+        print(a, "\t", beaufortskala(a))
