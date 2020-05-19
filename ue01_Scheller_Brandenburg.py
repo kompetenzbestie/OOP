@@ -1,5 +1,7 @@
 import random
 
+
+# AUFGABE 1
 def auf_ab (a, b, c):
     if a<=b<=c:
         print("Die Zahlen sind aufsteigend.")
@@ -8,6 +10,8 @@ def auf_ab (a, b, c):
     else:
         print("Die Zahlen sind weder auf- noch absteigend.")
 
+
+# AUFGABE 2
 def listenprodukt (liste):
 
     acc = 1
@@ -17,6 +21,8 @@ def listenprodukt (liste):
 
     print(acc)
 
+
+# AUFGABE 3
 def weekday (d,m,y):
     
     y_0 = int(y - (14-m)/12)
@@ -40,6 +46,8 @@ def weekday (d,m,y):
     elif(name==6):
         print("Freitag")
 
+
+# AUFGABE 4
 def gluecksspieler():
 
     bargeld = int(input("Bargeld = "))
@@ -75,3 +83,49 @@ def gluecksspieler():
     return rounds
 
 
+# AUFGABE 5
+def teiler(a):
+
+    t = []
+    
+    for i in range(1, a):
+        if a%i==0:
+            t.append(i)
+
+    return t
+            
+def befreundet(n, m):
+    
+    return (n == sum(teiler(m))) and (m == sum(teiler(n)))
+
+
+# AUFGABE 6
+def beaufortskala(k):
+    if k<1:
+        return "Windstille"
+    elif k<4:
+        return "Leiser Zug"
+    elif k<7:
+        return "Leichte Brise"
+    elif k<11:
+        return "Schwache Brise"
+    elif k<16:
+        return "Mäßige Brise"
+    elif k<22:
+        return "Frische Brise"
+    elif k<28:
+        return "Starker Wind"
+    elif k<34:
+        return "Steifer Wind"
+    elif k<41:
+        return "Stürmischer Wind"
+    elif k<48:
+        return "Sturm"
+    elif k<56:
+        return "Schwerer Sturm"
+    elif k<65:
+        return "Orkanartiger Sturm"
+    elif k>64:
+        return "Orkan"
+    else:
+        return "Falscher Input. Bitte eine Zahl eingeben."
