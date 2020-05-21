@@ -1,5 +1,5 @@
 import random
-
+#Abgabe von: Frederick Brandenburg, Ferdinand Scheller
 
 # AUFGABE 1
 def auf_ab (a, b, c):
@@ -15,7 +15,7 @@ def auf_ab (a, b, c):
 def listenprodukt (liste):
 
     acc = 1
-    
+
     for x in liste:
         acc = acc*x
 
@@ -24,11 +24,11 @@ def listenprodukt (liste):
 
 # AUFGABE 3
 def weekday (d,m,y):
-    
+
     y_0 = int(y - (14-m)/12)
     x = int(y_0 + y_0/4 - y_0/100 + y_0/400)
     m_0 = int(m + 12*((14-m)/12) - 2)
-    
+
     name = int((d + x + (31*m_0)/12) % 7)
 
     if(name==0):
@@ -59,7 +59,7 @@ def gluecksspieler():
     while bargeld > 0:
 
         rounds += 1
-        
+
         print(bargeld, end=": \t")
 
         counter = bargeld
@@ -87,15 +87,15 @@ def gluecksspieler():
 def teiler(a):
 
     t = []
-    
+
     for i in range(1, a):
         if a%i==0:
             t.append(i)
 
     return t
-            
+
 def befreundet(n, m):
-    
+
     return (n == sum(teiler(m))) and (m == sum(teiler(n)))
 
 
@@ -142,7 +142,7 @@ def test_listenprodukt():
     listenprodukt([1,2,3,4,5,6,7,8,9])  # 362880
     listenprodukt([2])                  # 2
     listenprodukt([2,21])               # 42
-    
+
 def test_weekday():
     for i in range (18,25):
         weekday(i,5,2020)               # Montag\nDienstag\nMittwoch\nDonnerstag\nFreitag\nSamstag\nSonntag
