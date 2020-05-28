@@ -1,5 +1,8 @@
 import random
 import time
+import turtle as t
+
+t.speed(0)
 
 # AUFGABE 1
 
@@ -12,7 +15,7 @@ def marsenne(n):
 def repeats (n,m):
 
     xs = [0 for x in range(n+1)]
-    
+
     for i in range(m):
         xs[random.randint(0, n)]+=1
 
@@ -84,4 +87,33 @@ def search_benchmark():
             funcs[i](key, list)
 
         print(func_names[i],(time.time()-time_start), "\tseconds.")
-        
+
+
+# AUFGABE 5
+
+def star(x, y, size):
+    t.up()
+    t.goto(x,y)
+
+    t.seth(90)
+    t.back(size/2)
+    t.down()
+
+    t.colormode(255)
+    t.color(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+    t.begin_fill()
+
+    for i in range(7):
+        t.forward(size)
+        t.right(154.286)
+
+    t.end_fill()
+
+
+def sky(n):
+
+    x_size = t.window_width()-100
+    y_size = t.window_height()-100
+
+    for i in range (n):
+        star(random.randint(-300,300),random.randint(-300,300),random.randint(10,100))
