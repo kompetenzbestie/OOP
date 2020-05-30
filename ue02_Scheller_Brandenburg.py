@@ -40,7 +40,7 @@ def repeats_dict (n,m):
         xs[random.randint(0, n)]+=1
 
     return xs
-
+#TESTPUSH
 
 # AUFGABE 3
 
@@ -140,7 +140,7 @@ def star(x, y, size):
 
     # Eine zufällige Farbe wird generiert und als Malfarbe gesetzt.
     t.color(random.randint(0,255),random.randint(0,255),random.randint(0,255))
-    
+
     t.begin_fill()
 
     # Ein siebenzackiger Stern wird generiert.
