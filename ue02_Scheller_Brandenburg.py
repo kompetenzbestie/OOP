@@ -135,11 +135,8 @@ def star(x, y, size):
     t.back(size/2)
     t.down()
 
-    # Der RGB-Colormode mit Werten von 0 bis 255 wird eingestellt.
-    t.colormode(255)
-
     # Eine zufällige Farbe wird generiert und als Malfarbe gesetzt.
-    t.color(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+    t.color(random.random(),random.random(),random.random())
 
     t.begin_fill()
 
@@ -158,3 +155,82 @@ def sky(n):
     # (diese Werte schienen mir angemessen, damit alles nicht vollkommen im Chaos versinkt).
     for i in range (n):
         star(random.randint(-300,300),random.randint(-300,300),random.randint(10,100))
+
+
+def squares(size, depth):
+
+    # Es wird überprüft, ob die Tiefe den Wert 0 erreicht hat (in diesem Fall sollen keine Rekusrionen mehr ausgeführt werden)
+    # oder ob die Zeichengröße unter 1 gefallen ist (in diesem Fall kann turtle nicht mehr zeichnen). In diesen Fällen bricht das Programm ab.
+    if depth < 1 or size < 1:
+        return
+    else:
+
+        # Die Zeichengröße wird gerundet abgespeichert (da turtle, wenn es versucht, eine Fließkommazahl von Pixeln zu zeichnen, unschönes Verhalten an den Tag legt).
+        size = int(round(size,0))
+        # Das Selbe wird mit der halben Zeichengröße gemacht.
+        half = int(round(size/2,0))
+
+        # Die Zeichenfarbe wird festgelegt. Ist die akzuelle Tiefe gerade, wird Schwarz verwendet, ansonsten Rot.
+        if depth%2==0:
+            t.color("black")
+        else:
+            t.color("red")
+
+        # Die turtle wird an die untere linke Ecke des zu zeichnenden Quadrats bewegt.
+        t.up()
+        t.bk(half)
+        t.right(90)
+        t.fd(half)
+        t.left(90)
+        t.down()
+
+        # Das Quadrat wird gezeichnet.
+        for i in range(4):
+            t.fd(size)
+            t.left(90)
+
+        # Die turtle kehrt wieder in die Mitte zurück.
+        t.up()
+        t.fd(half)
+        t.left(90)
+        t.fd(half)
+        t.right(90)
+        t.down()
+
+        # Rekursiver Aufruf.
+        squares(size-10, depth-1)
+
+
+def fractal_squares(x, y, startsize, depth):
+
+    # Da die Zeichenphasen dieser Funktion recht lange ausfallen können, habe ich hier den tracer deaktiviert.
+    t.tracer(0, 0)
+
+    # Die Zeichengröße wird gerundet abgespeichert.
+    startsize = int(round(startsize, 0))
+    # Das Selbe wird mit der halben Zeichengröße gemacht.
+    h_startsize = int(round(startsize/2, 0))
+
+    # Die trtle wird zu der übergebenen Koordinate bewegt.
+    t.up()
+    t.goto(x,y)
+    t.down()
+
+    # Ein rekursives Quadrat wird gezeichnet.
+    squares(startsize, 8)
+
+    # Hier wird überprüft, ob der Rekursionszweig sein Ende erreicht hat.
+    # Wenn ja, updated der tracer und das Programm bricht ab.
+    if depth > 0:
+
+        # Die Distanz zu den zu zeichnenden Fraktalquadraten wird errechnet und gerundet abgespeichert.
+        dist = int(round(startsize*0.75,0))
+
+        # Es wird je ein rekursiver Aufruf oben rechts, oben links, unten rechts und unten links ausgeführt.
+        fractal_squares(x+dist,y+dist,h_startsize,depth-1)
+        fractal_squares(x-dist,y+dist,h_startsize,depth-1)
+        fractal_squares(x+dist,y-dist,h_startsize,depth-1)
+        fractal_squares(x-dist,y-dist,h_startsize,depth-1)
+    else:
+        t.update()
+        return
