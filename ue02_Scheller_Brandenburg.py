@@ -270,6 +270,10 @@ def fractal_squares(x, y, startsize, depth):
 
 def revDigits(n):
 
+    if n==0:
+        print("Please enter a non-Zero number!")
+        return
+
     # n wird zunächst in einen String und dann in eine Liste umgewandelt, da Listen umkehrbar sind und Integer nicht direkt in Listen umgewandelt werden können.
     n=list(str(n))
     # die Liste wird umgekehrt.
@@ -301,3 +305,62 @@ def foldr(f, a, xs):
         return a
     else:
         return foldl(f, (f(xs[-1],a)), xs[:-1])
+
+
+# TESTFUNKTIONEN
+
+def test_1():
+    marsenne(0)                                     # 0
+    marsenne(3)                                     # 7
+    marsenne(8)                                     # 255
+
+def test_2():
+    repeats_list(0,0)                               # [0]
+    repeats_list(10,0)                              # [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    repeats_list(0,10)                              # [10]
+    repeats_list(10,100)                            # [11, 13, 11, 6, 11, 7, 9, 6, 13, 7, 6]
+    repeats_dict(0,0)                               # {0: 0}
+    repeats_dict(10,0)                              # {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0}
+    repeats_dict(0,10)                              # {0: 10}
+    repeats_dict(10,100)                            # {0: 6, 1: 7, 2: 9, 3: 7, 4: 12, 5: 8, 6: 13, 7: 7, 8: 9, 9: 13, 10: 9}
+
+def test_3():
+    search_benchmark()                              # Linear iterative 0.008352041244506836 	seconds.
+                                                    # Binary iterative 0.007509946823120117 	seconds.
+                                                    # Linear recursive 0.3632509708404541 	        seconds.
+                                                    # Binary recursive 0.013514995574951172 	seconds.
+
+def test_4():
+    apply_if(factorial,odd,[])                      # []
+    apply_if(factorial,odd,[0,1,2,3,4,5,6])         # [0, 1, 2, 6, 4, 120, 6]
+    apply_if(factorial,odd,[2, 5, 7, 4, 9, 6])      # [2, 120, 5040, 4, 362880, 6]
+
+def test_5():
+    star(0,0,0)                                     # Zeichnet nichts.
+    star(0,0,100)                                   # zeichnet einen Stern in der Mitte des Feldes.
+    sky(0)                                          # Zeichnet nichts.
+    sky(100)                                        # Zeichnet 100 Sterne.
+    squares(200,0)                                  # Zeichnet nichts.
+    squares(200,1)                                  # Zeichnet ein rotes Quadrat.
+    squares(150,19)                                 # Eine ungefähre Nachbildung der Darstellung auf dem Arbeitsblatt.
+    fractal_squares(0,0,0,4)                        # Zeichnet nichts.
+    fractal_squares(0,0,150,0)                      # Entspricht squares(150,8)
+    fractal_squares(0,0,150,2)                      # Eine ungefähre Nachbildung der Darstellung auf dem Arbeitsblatt.
+
+def test_6():                
+    revDigits(0)                                    # Please enter a non-Zero number!
+    revDigits(0000000)                              # Please enter a non-Zero number!
+    revDigits(10021)                                # 12001
+    revDigits(8390100)                              # 10938
+
+def div(a,b): return a/b
+def add(a,b): return a+b
+    
+def test_7():
+    
+    foldl(div,30,[])                                # 30
+    foldl(div,64,[4,2,4])                           # 2.0
+
+    foldr(add, 12, [])                              # 12
+    foldr(add, 1, [x for x in range(2,37)])         # 666
+
