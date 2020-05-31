@@ -40,7 +40,7 @@ def repeats_dict (n,m):
         xs[random.randint(0, n)]+=1
 
     return xs
-#TESTPUSH
+
 
 # AUFGABE 3
 
@@ -120,6 +120,36 @@ def search_benchmark():
 
         # Die benötigte Zeit wird berechnet und ausgegeben.
         print(func_names[i],(time.time()-time_start), "\tseconds.")
+
+
+# AUFGABE 4
+
+# factorialFunktion aus der Vorlesung.
+def factorial(n):
+    if n<=0:
+        return 1
+    else:
+        return n*factorial(n-1)
+
+# Da ich in den Folien keine odd-Funktion finden konnte, habe ich eine selbst geschrieben.
+def odd(n):
+    return n%2!=0
+
+
+def apply_if(f,p,xs):
+    
+    # Wenn die Liste leer ist, wird ebenfalls eine leere Liste zurückgegeben.
+    if xs==[]:
+        return []
+
+    # Erfüllt das erste Element der Liste die gestellte Bedingung, so wird die Funktion auf das Element angewandt und das Ergebnis
+    # als Teil einer Liste zurückgegeben, wobei ein rekursiver Aufruf erfolgt.
+    elif p(xs[0]):
+        return [f(xs[0])] + apply_if(f,p,xs[1:])
+
+    # Wie oben, nur ohne Funktionsanwendung.
+    else:
+        return [xs[0]] + apply_if(f,p,xs[1:])
 
 
 # AUFGABE 5
@@ -234,3 +264,40 @@ def fractal_squares(x, y, startsize, depth):
     else:
         t.update()
         return
+
+
+# AUFGABE 6
+
+def revDigits(n):
+
+    # n wird zunächst in einen String und dann in eine Liste umgewandelt, da Listen umkehrbar sind und Integer nicht direkt in Listen umgewandelt werden können.
+    n=list(str(n))
+    # die Liste wird umgekehrt.
+    n.reverse()
+
+    # Vorne stehende Nullen werden entfernt.
+    while n[0]=='0':
+        n=n[1:]
+
+    # Die Liste wird zusammengefügt und der dadurch entstandene String wird wieder zu einem Int umgewandelt (die Verwendung von join entnahm ich https://stackoverflow.com/questions/12453580/concatenate-item-in-list-to-strings (31.05.2020, 18:24 Uhr))
+    n=int(''.join(n))
+
+    return n
+
+
+# AUFGABE 7
+
+def foldl(f, a, xs):
+    # Wenn die Liste leer ist, wurde alles gefaltet und der Endwert wird zurückgegeben.
+    if xs == []:
+        return a
+    # Ist die Liste nicht leer, so kann immer noch mindestens eine weitere Faltung durchgeführt werden.
+    # Die Funktion wird nun rekursiv aufgerufen, wobei das Ergebnis der Faltung als neues Ankerelement weitergegeben wird.
+    else:
+        return foldl(f, (f(a,xs[0])), xs[1:])
+
+def foldr(f, a, xs):
+    if xs == []:
+        return a
+    else:
+        return foldl(f, (f(xs[-1],a)), xs[:-1])
