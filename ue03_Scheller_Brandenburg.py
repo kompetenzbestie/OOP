@@ -1,6 +1,8 @@
 import random
 import operator
 
+# AUFGABE 1
+
 def random_list(a, b, n):
     returnList = []
     
@@ -17,6 +19,9 @@ def sorted(op, xs):
         return (op(xs[0],xs[1]))
     else:
         return (op(xs[0],xs[1]) and sorted(op,xs[2:]))
+
+
+# AUFGABE 3
 
 def insertsort(seq):
     j = 1
@@ -44,19 +49,11 @@ def insertTest():
         else:
             print("Not sorted!", end="\n\n")
         
-'''def partition(A, low, high):
-    pivot = A[low]
-    i = low
-    
-    for j in range(low+1, high+1):
-        if(A[j] < pivot):
-            i=i+1
-            A[i], A[j] = A[j], A[i]
-    A[i], A[low] = A[low], A[i]
-    return i
-'''
+
+# AUFGABE 4
 
 def partition(A, low, high):
+    
     avgList=[]
 
     for x in range(3):
@@ -73,13 +70,34 @@ def partition(A, low, high):
     A[i], A[low] = A[low], A[i]
     return i
 
-
 def quicksort(A, low, high):
     if low<high:
         m = partition(A, low, high)
         quicksort(A, low, m-1)
         quicksort(A, m+1, high)
-
     return A
 
 
+'''
+Speicheranalyse zu Quick Sort á la Haskell:
+
+Worst case: Die Liste ist bereits sortiert.
+
+In diesem Fall finden n Funktionsaufrufe statt.
+In jedem dieser Funktionsaufrufe wird eine neue Liste erzeugt, wobei die Erste die Länge
+n-1, die Zweite die Länge n-2 hat etc.
+Daher beläuft sich der zusätzliche Speicherplatz auf O(n²).
+
+'''
+
+def quick_insert(A, low, high, k):
+    if low<high:
+        if len(A[low:high])<k:
+            insertsort(A)
+        m = partition(A, low, high)
+        print(A)
+        quick_insert(A, low, m-1, k)
+        quick_insert(A, m+1, high, k)
+    return A
+        
+    
