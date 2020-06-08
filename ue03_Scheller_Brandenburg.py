@@ -5,7 +5,7 @@ import operator
 
 def random_list(a, b, n):
     returnList = []
-    
+
     for i in range(n):
         returnList.append(random.randint(a, b))
 
@@ -20,6 +20,9 @@ def sorted(op, xs):
     else:
         return (op(xs[0],xs[1]) and sorted(op,xs[2:]))
 
+# AUFGABE 2
+
+#def bubblesort
 
 # AUFGABE 3
 
@@ -48,12 +51,12 @@ def insertTest():
             print("Sorted!", end="\n\n")
         else:
             print("Not sorted!", end="\n\n")
-        
+
 
 # AUFGABE 4
 
 def partition(A, low, high):
-    
+
     avgList=[]
 
     for x in range(3):
@@ -99,5 +102,23 @@ def quick_insert(A, low, high, k):
         quick_insert(A, low, m-1, k)
         quick_insert(A, m+1, high, k)
     return A
-        
-    
+
+# AUFGABE 5
+
+def min_diff(A):
+    if(len(A)<2):
+        print("List needs to have at least 2 elements!")
+        return
+    else:
+        y = 0
+        ldiff = abs(A[0] - A[1])
+        help = (0,1)
+        while(y < len(A)):
+            z = y+1
+            while(z < len(A)):
+                if(abs(A[y] - A[z]) < ldiff):
+                    ldiff = abs(A[y] - A[z])
+                    help = (A[y],A[z])
+                z=z+1
+            y=y+1
+        return help
