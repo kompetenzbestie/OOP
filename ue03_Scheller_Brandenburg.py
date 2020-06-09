@@ -22,7 +22,6 @@ def sorted(op, xs):
 
 # AUFGABE 2
 
-#def bubblesort
 
 # AUFGABE 3
 
@@ -112,7 +111,7 @@ def min_diff(A):
     else:
         y = 0
         ldiff = abs(A[0] - A[1])
-        help = (0,1)
+        ret = (0,1)
         while(y < len(A)):
             z = y+1
             while(z < len(A)):
@@ -121,4 +120,53 @@ def min_diff(A):
                     help = (A[y],A[z])
                 z=z+1
             y=y+1
-        return help
+        return ret
+
+'''
+Speicheranalyse zu min_diff:
+
+
+'''
+
+# AUFGABE 6
+
+def itmergesort(A):
+    z = 0
+    y = 0
+    res = []
+    while z < len(A):
+        while y < len(A):
+            res = res + merge(A[y:(y+z+1)],A[(y+z+1):(y+2*z+2)])
+            y = y+2*z+2
+        z = 2*z+1
+        A = res
+        y = 0
+        res = []
+    return A
+
+
+# AUFGABE 7
+
+def mergeandsort(A, B):
+    return mergesort(A+B)
+
+def mergesort(A):
+    if len(A) < 2:
+        return A
+    else:
+        m = len(A) // 2
+        return merge( mergesort(A[:m]), mergesort(A[m:]))
+
+def merge(low, high):
+    res = []
+    i, j = 0, 0
+    while i<len(low) and j<len(high):
+        if low[i] <= high[j]:
+            res.append(low[i])
+            i = i+1
+        else:
+            res.append(high[j])
+            j = j+1
+    res = res + low[i:]
+    res = res + high[j:]
+    return res
