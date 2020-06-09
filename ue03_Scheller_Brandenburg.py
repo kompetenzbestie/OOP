@@ -3,6 +3,7 @@ import operator
 
 # AUFGABE 1
 
+#Nachdem eine hilfsliste initialisiert wurde, wird n mal eine zufalls Zahl zwischen a und b an die Liste angehangen
 def random_list(a, b, n):
     returnList = []
 
@@ -11,6 +12,7 @@ def random_list(a, b, n):
 
     return returnList
 
+#solange die Liste mehr als 1 Element hat, dann wird die Funktion rekursiv aufgerufen. Der Anker ist in diesem Fall erreicht, wenn die Liste nur genau 2 Elemente hat.
 def sorted(op, xs):
     if(len(xs)<2):
         print("Liste needs to have at least 2 elements!")
@@ -24,7 +26,6 @@ def sorted(op, xs):
 
 
 # AUFGABE 3
-
 def insertsort(seq):
     j = 1
     while(j<len(seq)):
@@ -50,7 +51,12 @@ def insertTest():
             print("Sorted!", end="\n\n")
         else:
             print("Not sorted!", end="\n\n")
-
+'''
+zu 3c):
+Bei kleineren Listen ist Insertion Sort effizienter als Quicksort, jedoch wird bei größeren Listen sollte man Quicksort verwenden.
+Wenn man sich die Wachstumsfunktionen anguckt (siehe Vorlesungsfolien) erkennt man dies auch: O(n²) (Insertionsort) ist bei
+kleinen n kleiner als O(n log n) (Quicksort).
+'''
 
 # AUFGABE 4
 
@@ -78,9 +84,15 @@ def quicksort(A, low, high):
         quicksort(A, low, m-1)
         quicksort(A, m+1, high)
     return A
-
-
 '''
+zu 4b):
+[5, 7, 7* , 4] -> [4, 5, 7* 7]
+
+zu 4c):
+Wenn man die Position der Elemente auch mit einbezieht, kann man durch eine Fallunterscheidung beim gleichen Elementen
+Quicksort auch Stabil implementieren.
+
+zu 4d):
 Speicheranalyse zu Quick Sort á la Haskell:
 
 Worst case: Die Liste ist bereits sortiert.
@@ -103,7 +115,8 @@ def quick_insert(A, low, high, k):
     return A
 
 # AUFGABE 5
-
+#Falls die Liste mindestens 2 Elemente hat, so wird jedes Element genau einmal mit allen anderen Verglichen, in ldiff wird
+#die kleinste Differenz gespeichert, in ret das dazugehörige Paar Elemente der Liste.
 def min_diff(A):
     if(len(A)<2):
         print("List needs to have at least 2 elements!")
@@ -117,19 +130,20 @@ def min_diff(A):
             while(z < len(A)):
                 if(abs(A[y] - A[z]) < ldiff):
                     ldiff = abs(A[y] - A[z])
-                    help = (A[y],A[z])
+                    ret = (A[y],A[z])
                 z=z+1
             y=y+1
         return ret
 
 '''
 Speicheranalyse zu min_diff:
-
-
+Wegen n Schleifendurchläufen, mit jeweils n, n-1, n-2... 1 Vergleiche(n) hat min_diff eine Laufzeit von (n*(n+1))/2 -> O(n²)
 '''
 
 # AUFGABE 6
-
+#Beim Iterativen Mergesort wird die Liste in Teillisten mit der Länge z unterteilt, diese sind durch die merge Funktion aus der Vorlesung
+#sortiert, und in dem Hilfsarray res abgelegt. Nach einem Schleifendurchlauf wird das Ursprungliche Array = dem Hilfsarray gesetzt und besteht
+#dann aus sortierten Teillisten. Durch die Erhöhung von z werden größere, sortierte Teillisten erstellt, bis die gesamte Liste sortiert ist.
 def itmergesort(A):
     z = 0
     y = 0
@@ -146,7 +160,7 @@ def itmergesort(A):
 
 
 # AUFGABE 7
-
+#mergeandsort ruft einfach mergesort mit der konkatenierten Liste A+B auf, mergesort und merge sind aus der Vorlesung.
 def mergeandsort(A, B):
     return mergesort(A+B)
 
@@ -170,3 +184,42 @@ def merge(low, high):
     res = res + low[i:]
     res = res + high[j:]
     return res
+
+
+# TESTFUNKTIONEN
+
+def test_1():
+    random_list(1,100,5)                                            #[98, 95, 17, 25, 94]
+    random_list(-10,10,10)                                          #[10, -7, -6, 1, -5, 2, -10, -7, 0, 10]
+
+
+def test_3():
+    insertsort([1,23,6,4,9,0,1,3,4,6])                              #[0, 1, 1, 3, 4, 4, 6, 6, 9, 23]
+    insertsort([-3,5,6,10039,3,-6,-7,-7,3,0])                       #[-7, -7, -6, -3, 0, 3, 3, 5, 6, 10039]
+    insertTest()                                                    ''' Original list:	 [26, 2, 28, 11, 12, 29, 60, 44, 99, 28]
+                                                                    Sorted list:	 [2, 11, 12, 26, 28, 28, 29, 44, 60, 99]	Sorted!
+
+                                                                    Sorted list:	 [14, 19, 40, 42, 52, 55, 61, 61, 67, 79]	Sorted!
+
+                                                                    Original list:	 [24, 30, 15, 99, 79, 3, 33, 1, 48, 79]
+                                                                    Sorted list:	 [1, 3, 15, 24, 30, 33, 48, 79, 79, 99]	Sorted!
+
+                                                                    Original list:	 [18, 63, 80, 100, 24, 18, 89, 13, 17, 99]
+                                                                    Sorted list:	 [13, 17, 18, 18, 24, 63, 80, 89, 99, 100]	Sorted!
+
+                                                                    Original list:	 [7, 87, 7, 36, 46, 87, 83, 2, 48, 38]
+                                                                    Sorted list:	 [2, 7, 7, 36, 38, 46, 48, 83, 87, 87]	Sorted!
+                                                                    '''
+#def test_4():
+def test_5():
+    min_diff ([3, 10, 6, 9, 5, 1, 2, 7, 6, 8])                      #(6, 6)
+    min_diff(random_list(-100,100,10))                              #(-33, -29), (-42, -41), (-96, -96),(76, 68)
+def test_6():
+    itmergesort(random_list(-100,100,10))                           #[-98, -96, -88, -81, -40, -36, -2, 2, 8, 70], [-68, -59, -40, 10, 22, 23, 30, 32, 39, 100]
+    itmergesort([3, 10, 6, 9, 5, 1, 2, 7, 6, 8])                    #[1, 2, 3, 5, 6, 6, 7, 8, 9, 10]
+    itmergesort([0,0,0,0,0,1,1,1,1,1,1,1,1,-1,-1,-1])               #[-1, -1, -1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+
+def test_7():
+    mergeandsort(random_list(-100,100,5),random_list(-100,100,5))   #[-92, -82, -64, -51, -51, -45, 26, 59, 62, 94], [-52, -51, -42, -41, -7, 10, 54, 62, 72, 89]
+    mergeandsort([1,23,6,4,9,0,1,3,4,6],[-3,5,6,10039,3,-6,-7,-7,3,0])#[-7, -7, -6, -3, 0, 0, 1, 1, 3, 3, 3, 4, 4, 5, 6, 6, 6, 9, 23, 10039]
+    mergeandsort([1,23,6,4,9,0,1,3,4,6],[])                         #[0, 1, 1, 3, 4, 4, 6, 6, 9, 23]
