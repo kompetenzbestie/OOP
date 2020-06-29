@@ -1,4 +1,5 @@
 package u6;
+import java.lang.Math;
 
 public class Rectangle {
 
@@ -73,13 +74,9 @@ public class Rectangle {
     if (this.contains(r)) {
       secX = r.x;
       secY = r.y;
-      secW = r.width;
-      secH = r.height;
     } else if (r.contains(this)) {
       secX = this.x;
       secY = this.y;
-      secW = this.width;
-      secH = this.height;
     } else if (r.x>this.x & r.y>this.y) {
       secX = r.x;
       secY = r.y;
@@ -93,6 +90,10 @@ public class Rectangle {
       secX = this.x;
       secY = r.y;
     }
+
+    // Quelle dieser Formeln: https://math.stackexchange.com/questions/99565/simplest-way-to-calculate-the-intersect-area-of-two-rectangles (29.06.2020, 17:08 Uhr)
+    secW = Math.max(0, (Math.min((this.x+this.width), (r.x+r.width)))-(Math.max(this.x, r.x)));
+    secH = Math.max(0, (Math.min((this.y+this.height), (r.y+r.height)))-(Math.max(this.y, r.y)));
 
     return new Rectangle(secX, secY, secW, secH);
   }

@@ -131,7 +131,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     // set of key codes currently pressed down
     private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
-  
+
 
     // singleton pattern: client can't instantiate
     private StdDraw() { }
@@ -768,7 +768,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     /**
      * Write the given text string in the current font, centered on (x, y) and
-     * rotated by the specified number of degrees  
+     * rotated by the specified number of degrees
      * @param x the center x-coordinate of the text
      * @param y the center y-coordinate of the text
      * @param s the text
@@ -1068,7 +1068,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         synchronized (keyLock) {
             keysDown.remove(e.getKeyCode());
         }
-    }    
+    }
 
 }
-
