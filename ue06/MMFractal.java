@@ -11,8 +11,6 @@ public class MMFractal {
       recDraw(x+size, y-size, size/2, depth-1);
       recDraw(x-size, y-size, size/2, depth-1);
       recDraw(x-size, y+size, size/2, depth-1);
-
-      //StdDraw.show(100);
     }
   }
 
