@@ -58,11 +58,7 @@ public class Stein implements Shape, Animation {
   public void play()
   {
     if (center.y+(radius*2)>=welt.getMax_Y()) {
-      for (int i=0;i<(rand.nextInt(10)+1);i++) {
-        MiniStein mini = new MiniStein(randomInRange((int) (center.x-radius),(int) (center.x+radius)),randomInRange((int) (center.y-radius),(int) (center.y+radius)));
-        welt.addShape(mini);
-        welt.removeShape(this);
-      }
+      dropStones();
     } else {
       center.y = center.y + (g*time);
       time++;
@@ -84,4 +80,11 @@ public class Stein implements Shape, Animation {
     return rand.nextInt(max - min) + min;
   }
 
+  public void dropStones() {
+    for (int i=0 ; i<(rand.nextInt(10)+1) ; i++) {
+      MiniStein mini = new MiniStein(randomInRange((int) (center.x-radius),(int) (center.x+radius)),randomInRange((int) (center.y-radius),(int) (center.y+radius)));
+      welt.addShape(mini);
+    }
+    welt.removeShape(this);
+  }
 }
