@@ -4,23 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-public class Stein implements Shape, Animation {
+// Growing wird an einer zufälligen Stelle gespawnt und wächst, bis es ein anderes Objekt berührt.
+public class Growing implements Shape, Animation {
 
   double radius;
   Point center;
 
+  Random rand;
   Color color;
   ShapesWorld welt;
-  Random rand;
 
-  double g = 0.981;
-  int time = 1;
+  boolean grow = true;
 
-  public Stein() {
-    this.rand = new Random();
+  public Growing() {
     this.radius = 25;
-    this.color = Color.GRAY;
-    this.center = new Point(rand.nextInt(500)-250,-200);
+    this.rand = new Random();
+    this.center = new Point(randomInRange(-200,200),randomInRange(-180,180));
+    this.color = new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256));
   }
 
   public Color getColor()
@@ -38,7 +38,7 @@ public class Stein implements Shape, Animation {
 
   public void draw(Graphics g) {
     g.setColor(color);
-    g.fillOval((int) (center.x-radius), (int) (center.y-radius), (int) radius*2, (int) radius*2);
+    g.fillOval((int) (center.x-radius), (int) (center.y-radius), (int) radius*2,  (int)radius*2);
   }
 
   public Point getCenter() {
@@ -50,17 +50,31 @@ public class Stein implements Shape, Animation {
   }
 
   public void userTyped(char key){
-    System.out.println("key");
+
   }
 
   // implement the Animation-Interface
   public void play()
   {
-    if (center.y+(radius*2)>=welt.getMax_Y()) {
-      dropStones();
-    } else {
-      center.y = center.y + (g*time);
-      time++;
+    if (grow) {
+      // Das nächste Objekt wird gesucht.
+      Shape closest = welt.getClosestShape(this);
+
+      // Wenn es ein anderes Objekt in der Welt gibt, wird die Distanz berechnet.
+      if (closest != null) {
+        double x_dist = Math.abs(center.x-closest.getCenter().x);
+        double y_dist = Math.abs(center.y-closest.getCenter().y);
+        double distance = Math.sqrt((x_dist*x_dist)+(y_dist*y_dist));
+
+        // Wenn sich die beiden Objekte berühren, ist Schlus mit wachsen.
+        if (distance <= radius+closest.getRadius()) {
+          grow = false;
+          return;
+        }
+      }
+
+      // Das Objekt wächst.
+      radius++;
     }
   }
 
@@ -78,15 +92,5 @@ public class Stein implements Shape, Animation {
   // Eine Funktion, um das Berechnen einer Zufallszahl zwischen zwei Zahlen ein wenig übersichtlicher zu machen.
   public int randomInRange(int min, int max) {
     return rand.nextInt(max - min) + min;
-  }
-
-  public void dropStones() {
-    for (int i=0 ; i<(rand.nextInt(10)+1) ; i++) {
-      // Eine zufällige Anzahl an MiniSteinen wird an einer zufälligen Position innerhalb von Stein generiert.
-      MiniStein mini = new MiniStein(randomInRange((int) (center.x-radius),(int) (center.x+radius)),randomInRange((int) (center.y-radius),(int) (center.y+radius)));
-      welt.addShape(mini);
-    }
-    // Stein wird entfernt.
-    welt.removeShape(this);
   }
 }

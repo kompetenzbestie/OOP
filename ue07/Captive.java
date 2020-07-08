@@ -16,7 +16,7 @@ public class Captive implements Shape, Animation {
 
   public Captive() {
    this.radius = 25;
-   this.color = Color.MAGENTA;
+   this.color = Color.YELLOW;
    this.center = new Point();
    this.rand = new Random();
   }
@@ -35,8 +35,12 @@ public class Captive implements Shape, Animation {
   }
 
   public void draw(Graphics g) {
+    g.setColor(Color.BLUE);
+    g.fillRect((int) (center.x-radius), (int) (center.y-3), (int) (radius*2), 6);
     g.setColor(color);
-    g.fillRect((int) center.x, (int) center.y, (int) radius*2,  (int)radius*2);
+    g.fillOval((int) (center.x-(radius*0.6)), (int) (center.y-(radius*0.66)), (int) (radius*1.33), (int) (radius*1.33));
+    g.setColor(Color.BLACK);
+    g.drawString("..", (int) center.x, (int) center.y);
   }
 
   public Point getCenter() {
@@ -44,8 +48,6 @@ public class Captive implements Shape, Animation {
   }
 
   public void userClicked(double atX, double atY){
-   // this.radius += 2;
-   // this.welt.addShape(new Captive());
   }
 
   public void userTyped(char key){
@@ -55,6 +57,10 @@ public class Captive implements Shape, Animation {
   // implement the Animation-Interface
   public void play()
   {
+    // Hier wird zunächst für alle Kanten des Bildschirms überprüft, ob sie vom Captive überschritten wurden.
+    // Wenn ja, werden die Bewegungsrichtungen so gesetzt, dass er sich von den Kanten entfernt.
+    // Der Rest verläuft analog zum CrazyWalker; es wird eine zufällige Laufrichtung ausgesucht und die Richtungen dementsprechend gesetzt.
+
     int xd=0, yd=0;
 
     if (center.x+(radius*2)>=((welt.getMax_X())-5))  {

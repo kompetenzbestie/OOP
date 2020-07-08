@@ -13,6 +13,9 @@ public class Scared implements Shape, Animation {
   ShapesWorld welt;
   Random rand;
 
+  // ANMERKUNG: Laut Aufgabenstellung soll das Objekt springen, sobald es berührt wird. Da es aber auch "sterben" soll, sobald es im Sprung berührt wird,
+  // stirbt es in 99% der Fälle direkt, sobald es einmal berührt wird, da die Berührung einen Tick nach der Auslösung des Sprungs immer noch registriert wird.
+  // Daher habe ich die Distanz, die nötig ist, um einen Sprung auszulösen etwas erhöht.
   double scareDistance = 190.0;
   double jumpDistance = 80.0;
 
@@ -65,23 +68,33 @@ public class Scared implements Shape, Animation {
   // implement the Animation-Interface
   public void play() {
 
+    // Das nächste Objekt wird gesucht.
     Shape closest = welt.getClosestShape(this);
 
+    // Es wird überprüft, ob es noch ein anderes Objekt in der Welt gibt.
+    // Scared handelt nur dann, wenn das der Fall ist; wenn es nicht anderes gibt, braucht Scared auch keine Angst haben.
     if (closest != null) {
+
+      // Die Distanz zu dem nächsten Objekt wird berechnet. Die Aufteilung in x_dist und y_dist geschieht nur, weil ich schlecht in Mathe bin.
       double x_dist = Math.abs(center.x-closest.getCenter().x);
       double y_dist = Math.abs(center.y-closest.getCenter().y);
-      double distance = Math.sqrt(Math.pow(x_dist,2)+Math.pow(y_dist,2));
+      double distance = Math.sqrt((x_dist*x_dist)+(y_dist*y_dist));
 
+      // Scared befindet sich gerade im Sprung.
       if (jumping) {
-        if (distance <= 50.0) {
+
+        // Wenn sich die beiden Objekte berühren, löst sich Scared in Steine auf.
+        if (distance <= radius+closest.getRadius()) {
           dropStones();
         }
 
+        // Wurden die Zielkoordinaten erreicht, hört Scared auf, zu springen.
         if (targetX == center.x && targetY == center.y) {
           jumping = false;
           return;
         }
 
+        // Ansonsten bewegt es sich auf seine Zielkoordinate hin.
         if (targetX > center.x) {
           center.x++;
         } else if (targetX < center.x) {
@@ -95,10 +108,16 @@ public class Scared implements Shape, Animation {
         }
 
       } else if (distance <= jumpDistance) {
+
+        // Wenn das nächste Objekt zu nahe kommt, werden zufällige Zielkoordinaten generiert und der Sprung beginnt.
         targetX = randomInRange((int) (welt.getMin_X()+radius),(int) (welt.getMax_X()-radius));
         targetY = randomInRange((int) (welt.getMin_Y()+radius),(int) (welt.getMax_Y()-radius));
         jumping = true;
+
       } else if (distance <= scareDistance) {
+
+        // Wenn das nächste Objekt nah genug kommt, um Scared Angst zu machen, fängt es an, zu zittern.
+        // Die Richtung, in die Scared zittert, ist in shakeDirection gespeichert.
         switch(shakeDirection) {
           case 0:
             center.x -= shakeDistance;
@@ -110,6 +129,9 @@ public class Scared implements Shape, Animation {
             break;
         }
       }
+    } else {
+      // Es befindet sich niemand außer Scared in der Welt, es braucht also keine Angst mehr haben.
+      jumping = false;
     }
   }
 
@@ -124,15 +146,18 @@ public class Scared implements Shape, Animation {
     return radius;
   }
 
+  // Eine Funktion, um das Berechnen einer Zufallszahl zwischen zwei Zahlen ein wenig übersichtlicher zu machen.
   public int randomInRange(int min, int max) {
     return rand.nextInt(max - min) + min;
   }
 
   public void dropStones() {
+    // Eine zufällige Anzahl an MiniSteinen wird an einer zufälligen Position innerhalb von Scared generiert.
     for (int i=0 ; i<(rand.nextInt(10)+1) ; i++) {
       MiniStein mini = new MiniStein(randomInRange((int) (center.x-radius),(int) (center.x+radius)),randomInRange((int) (center.y-radius),(int) (center.y+radius)));
       welt.addShape(mini);
     }
+    // Scared wird entfernt.
     welt.removeShape(this);
   }
 }
