@@ -3,6 +3,8 @@ package u7;
 import java.awt.Color;
 import java.awt.Graphics;
 
+//Vibe spawnt ein Objekt, dessen Kopf sich auf und ab bewegt. Wenn es angeklickt wird, bewegt es sich wie GoAndBack, wenn es nochmal angeklickt wird,
+//dann bewegt es sich auf und ab. Wenn man s drückt stopt das ausgewählte Objekt.
 public class Vibe implements Shape, Animation {
 
   double radius;
@@ -33,8 +35,6 @@ public class Vibe implements Shape, Animation {
   public Color getColor()
   { return color; }
 
-  public Color getColor2()
-  { return color2; }
 
   public void moveTo(double x, double y){
     center.x = (int) x;
@@ -46,29 +46,8 @@ public class Vibe implements Shape, Animation {
     this.welt = theWorld;
   }
 
+
   public void draw(Graphics g) {
-    if(status == 1){
-	if ((center.x+radius)<=welt.getMax_X() && (center.x-radius)>=welt.getMin_X()){
-	    center.x = center.x + velocity;
-	    center2.x = center2.x + velocity;
-	}
-	else {
-	   velocity = (-velocity);
-           center.x = center.x + velocity;
-	   center2.x = center2.x + velocity;
-	}
-    }
-    else if(status == 2) {
-	if ((center.y+radius)<=welt.getMax_Y() && (center.y-radius)>=welt.getMin_Y()){
-	   center.y = center.y + velocity;
-	   center2.y = center2.y + velocity;
-        }
-	else {
-	   velocity = (-velocity);
-           center.y = center.y + velocity;
-	   center2.y = center2.y + velocity;
-        }
-    }
     g.setColor(color);
     g.fillRect((int) (center.x+(radius/5)), (int) (center.y), (int) radius,  (int)radius);
     g.setColor(color2);
@@ -83,7 +62,7 @@ public class Vibe implements Shape, Animation {
   public Point getCenter() {
    return center;
   }
-
+  //Durch clicken auf das Objekt wird der Status geändert. Dieser wechselt immer von 1 zu 2. Falls Status 0 wird nach dem Klick Status auf 1 gesetzt.
   public void userClicked(double atX, double atY){
     if(status == 1){
       status = 2;
@@ -92,15 +71,38 @@ public class Vibe implements Shape, Animation {
       status = 1;
     }
   }
-
+ //falls s oder S eingegeben wird, so wird der status auf 0 gesetzt, d.h. das Objekt bewegt sich nicht mehr.
   public void userTyped(char key){
      if (key == 'S' || key == 's')
 	status = 0;
   }
 
-  // implement the Animation-Interface
-  public void play()
-  {
+  //Abhängig vom Status wird das Objekt entweder von horizontal oder vertikal bewegt. Funktionsweise wie bei GoAndBack
+  //Zum auf und ab bewegen des Kopfes wurde das Interval 20 festgelegt und es wird eine zweite center Variable genutzt um die Position
+  //des Kopfes zu überprüfen und zu verändern.
+  public void play(){
+    if(status == 1){
+       if ((center.x+radius)<=welt.getMax_X() && (center.x-radius)>=welt.getMin_X()){
+         center.x = center.x + velocity;
+         center2.x = center2.x + velocity;
+        }
+         else {
+            velocity = (-velocity);
+            center.x = center.x + velocity;
+             center2.x = center2.x + velocity;
+         }
+    }
+    else if(status == 2) {
+       if ((center.y+radius)<=welt.getMax_Y() && (center.y-radius)>=welt.getMin_Y()){
+          center.y = center.y + velocity;
+          center2.y = center2.y + velocity;
+        }
+       else {
+          velocity = (-velocity);
+          center.y = center.y + velocity;
+          center2.y = center2.y + velocity;
+      }
+    }
     if (center2.y <= (center.y) || center2.y >= (center.y+20)){
        bpm = -bpm;
     }
