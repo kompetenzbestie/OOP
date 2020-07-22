@@ -1,5 +1,6 @@
 package u9;
 
+// Siehe Blatt.
 public interface Queue<E> {
 
   public void enqueue(E element);
